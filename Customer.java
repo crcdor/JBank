@@ -1,14 +1,14 @@
 
 /**
- * Write a description of class Customer here.
+ * Customer class is used as a customer object to hold customer information.
  * 
  * @author Rudy Nurhadi
- * @version 18/02/2016
+ * @version 26/02/2016
  */
-public class Customer {
-    // instance variables - replace the example below with your own
+public class Customer 
+{
     private Account accounts = new Account();
-    private String cityAddress;
+    private String cityName;
     private int custId;
     private String dateOfBirth;
     private String email;
@@ -20,70 +20,175 @@ public class Customer {
     private String zipOrPostalCode;
 
     /**
-     * Constructor for objects of class Customer
+     * Create a new customer object.
      */
-    public Customer() {
-        // initialise instance variables
-        
-    }
-
-    public Customer(String fname, String lname, String dob) {
-    
-    }
-    
-    public Customer(String firstName, String lastName, String dateOfBirth, int custId) {
+    public Customer()
+    {
         
     }
     
     /**
-     * An example of a method - replace this comment with your own
+     * Create a new customer object.
      * 
-     * @param  y   a sample parameter for a method
-     * @return     the sum of x and y 
+     * @param fname First name of customer.
+     * @param lname Last name of customer.
+     * @param dob Date of birth of customer.
      */
-   
-    private String getAddress() {
-        return null;
+    public Customer(String fname, String lname, String dob) 
+    {
+        firstName = fname;
+        lastName = lname;
+        dateOfBirth = dob;
     }
     
-    private Account getAccount() {
-        return null;
+    /**
+     * Create a new customer object.
+     * 
+     * @param fname First name of customer.
+     * @param lname Last name of customer.
+     * @param dob Fate of birth of customer.
+     * @param id Customer identifier.
+     */
+    public Customer(String fname, String lname, String dob, int id) 
+    {
+        firstName = fname;
+        lastName = lname;
+        dateOfBirth = dob;
+        custId = id;
     }
     
-    private int getCustomerId() {
-        return 0;
+    /**
+     * Accessor to get the customer address.
+     * 
+     * @return string Street address, city name, zip or postal code of customer.
+     */
+    public String getAddress() 
+    {
+        return streetAddress + " " + cityName + " " + zipOrPostalCode;
     }
     
-    private String getEmail(){
-        return null;
+    /**
+     * Accessor to get the customer account object.
+     * 
+     * @return Account Account object of customer.
+     */
+    public Account getAccount() 
+    {
+        return accounts;
     }
     
-    private String getCustomerName() {
-        return null;
+    /**
+     * Accessor to get the customer identifier.
+     * 
+     * @return int Customer identifier.
+     */
+    public int getCustomerId() 
+    {
+        return custId;
     }
     
-    public int getNumOfAccounts() {
-        return 0;
+    /**
+     * Accessor to get the customer email.
+     * 
+     * @return string Email address of customer.
+     */
+    public String getEmail() 
+    {
+        return email;
     }
     
-    private String getPhoneNumber() {
-        return null;
+    /**
+     * Accessor to get the customer name.
+     * 
+     * @return string Last name and first name of customer.
+     */
+    public String getName() 
+    {
+        return lastName + ", " + firstName;
     }
     
-    private void setAddress(String street, String city, String code) {
+    /**
+     * Accessor to get the total number of customer account.
+     * 
+     * @return int Total number of customer account.
+     */
+    public int getNumOfAccounts() 
+    {
+        return numberOfCurrentAccounts;
+    }
+    
+    /**
+     * Accessor to get the customer phone number.
+     * 
+     * @return string Phone number of customer.
+     */
+    public String getPhoneNumber() 
+    {
+        return phoneNumber;
+    }
+    
+    /**
+     * Mutator to set the customer address.
+     * 
+     * @param street Street address of customer.
+     * @param city City address of customer.
+     * @param code Zip or postal code of customer address.
+     */
+    public void setAddress(String street, String city, String code) 
+    {
+        streetAddress = street;
+        cityName = city;
+        code = zipOrPostalCode;
+    }
+    
+    /**
+     * Mutator to set the customer email.
+     * 
+     * @param emailAddress Email address of customer.
+     * @return boolean The success of email change process.
+     */
+    public boolean setEmail(String emailAddress) 
+    {
+        String EMAIL_REGEX = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
         
-    }
-    
-    private void setEmail(String emailAddress) {
+        if(emailAddress.matches(EMAIL_REGEX)) {
+            email = emailAddress;
+            
+            return true;
+        }
         
+        return false;
     }
     
-    private void setCustomerName(String lname, String fname) {
-        
+    /**
+     * Mutator to set the customer name.
+     * 
+     * @param fname First name of customer.
+     * @param lname Last name of customer.
+     */
+    public void setName(String fname, String lname) 
+    {
+        firstName = fname;
+        lastName = lname;
     }
     
-    private void setPhoneNumber(String phoneNum) {
-        
+    /**
+     * Mutator to set the customer phone number.
+     * 
+     * @param phoneNum Phone number of customer.
+     */
+    public void setPhoneNumber(String phoneNum) 
+    {
+        phoneNumber = phoneNum;
     }
     
+    /**
+     * Mutator to set the customer account.
+     * 
+     * @param acc Account object for customer.
+     */
+    public void setAccount(Account acc) 
+    {
+        accounts = acc;
+    }
 }

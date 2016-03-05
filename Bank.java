@@ -7,47 +7,48 @@
  */
 public class Bank 
 {
-    public static String bankName = "JBANK";
-    public static String bankAddress = "1234 JavaStreet, AnyCity, ThisState, 34567";
+    public static final String BANK_NAME = "JBANK";
+    public static final String BANK_ADDRESS = "1234 JavaStreet, AnyCity, ThisState, 34567";
     private static String phone;
     public static String website;
     private static String startTime;
     private static String closeTime;
-    private static int numOfCurrentCustomer;
-    public static int maxNumOfCustomers = 20;
+    public static int numOfCurrentCustomers = 0;
+    public static final int MAX_NUM_OF_CUSTOMERS = 20;
+    public static int maxNumOfAcctsPerCustomer = 4;
     private static double creditInterestRate;
     private static double investmentInterestRate;
     private static double premiumInterestRate;
-    private static int lastCustID;
-    private static int nextCustID;
+    private static int lastCustID = 0;
+    private static int nextCustID = 0;
 
     /**
      * Create a new bank object.
      */
-    public Bank() 
+    private Bank() 
     {
         
     }
     
-    /**
-     * Accessor to get the name of this bank.
-     * 
-     * @return String The name of this bank.
-     */
-    public static String getName() 
-    {
-        return bankName;
-    }
-
-    /**
-     * Accessor to get the bank address.
-     * 
-     * @return String Address of the bank.
-     */
-    public static String getAddress() 
-    {
-        return bankAddress;
-    }
+//     /**
+//      * Accessor to get the name of this bank.
+//      * 
+//      * @return String The name of this bank.
+//      */
+//     public static String getName() 
+//     {
+//         return BANK_NAME;
+//     }
+// 
+//     /**
+//      * Accessor to get the bank address.
+//      * 
+//      * @return String Address of the bank.
+//      */
+//     public static String getAddress() 
+//     {
+//         return BANK_ADDRESS;
+//     }
     
     /**
      * Accessor to get the phone number of this bank.
@@ -86,18 +87,18 @@ public class Bank
      */
     public static int getNumOfCurrentCustomers()
     {
-        return numOfCurrentCustomer;
+        return numOfCurrentCustomers;
     }
     
-    /**
-     * Accessor to get the maximum total of customer.
-     * 
-     * @return int Maximum total of customer.
-     */
-    public static int getMaxCustomers() 
-    {
-        return maxNumOfCustomers;
-    }
+//     /**
+//      * Accessor to get the maximum total of customer.
+//      * 
+//      * @return int Maximum total of customer.
+//      */
+//     public static int getMaxCustomers() 
+//     {
+//         return MAX_NUM_OF_CUSTOMERS;
+//     }
     
     /**
      * Accessor to get the interest rate of credit.
@@ -146,13 +147,21 @@ public class Bank
      */
     public static int getNextID() 
     {
-        if(lastCustID < 1000) {
-            nextCustID = lastCustID + 1;
-            
-            return nextCustID;
+        int id = 0;
+        
+        if(nextCustID == 0) {
+            nextCustID = 1000;
+            numOfCurrentCustomers = 1;
+            id = nextCustID;
+        }
+        else if(numOfCurrentCustomers < MAX_NUM_OF_CUSTOMERS) {
+            lastCustID = nextCustID;
+            nextCustID++;
+            numOfCurrentCustomers++;
+            id = nextCustID;
         }
         
-        return 0;
+        return id;
     }
     
     /**

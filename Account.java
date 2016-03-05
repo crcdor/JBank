@@ -17,7 +17,8 @@ public class Account
      */
     public Account() 
     {
-        
+        acctType = '\0';
+        balance = 0;
     }
 
     /**
@@ -100,8 +101,8 @@ public class Account
      */
     public boolean withdraw(double amount) 
     {
-        if((balance - amount) < 0) {
-            balance =- amount;
+        if((balance - amount) > 0 && amount > 0) {
+            balance -= amount;
             
             return true;
         }
@@ -117,8 +118,8 @@ public class Account
      */
     public boolean deposit(double amount) 
     {
-        if(amount < 0) {
-            balance =+ amount;
+        if(amount >= 0) {
+            balance += amount;
             
             return true;
         }

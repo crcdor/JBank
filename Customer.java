@@ -7,24 +7,27 @@
  */
 public class Customer 
 {
-    private Account accounts = new Account();
-    private String cityName;
+    private Account[] accounts = new Account[Bank.maxNumOfAcctsPerCustomer];
+    private String cityAddress;
     private int custId;
     private String dateOfBirth;
     private String email;
     private String firstName; 
     private String lastName;
-    private int numberOfCurrentAccounts;
+    private int numOfCurrentAccounts;
     private String streetAddress;
     private String phoneNumber;
     private String zipOrPostalCode;
 
     /**
      * Create a new customer object.
+     * 
+     * @param fname First name of customer.
+     * @param lname Last name of customer.
      */
-    public Customer()
+    public Customer(String fname, String lname)
     {
-        
+        this(fname, lname, null);
     }
     
     /**
@@ -34,47 +37,42 @@ public class Customer
      * @param lname Last name of customer.
      * @param dob Date of birth of customer.
      */
-    public Customer(String fname, String lname, String dob) 
+    public Customer(String firstName, String lastName, String dateOfBirth) 
     {
-        firstName = fname;
-        lastName = lname;
-        dateOfBirth = dob;
-    }
-    
-    /**
-     * Create a new customer object.
-     * 
-     * @param fname First name of customer.
-     * @param lname Last name of customer.
-     * @param dob Fate of birth of customer.
-     * @param id Customer identifier.
-     */
-    public Customer(String fname, String lname, String dob, int id) 
-    {
-        firstName = fname;
-        lastName = lname;
-        dateOfBirth = dob;
-        custId = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+        custId = Bank.getNextID();
+        for(int i = 0; i < Bank.maxNumOfAcctsPerCustomer; i++) {
+            accounts[i] = new Account();
+        }
     }
     
     /**
      * Accessor to get the customer address.
      * 
-     * @return string Street address, city name, zip or postal code of customer.
+     * @return String Street address, city name, zip or postal code of customer.
      */
     public String getAddress() 
     {
-        return streetAddress + " " + cityName + " " + zipOrPostalCode;
+        return streetAddress + " " + cityAddress + " " + zipOrPostalCode;
     }
     
     /**
      * Accessor to get the customer account object.
      * 
+     * @param type Account type that want to get.
      * @return Account Account object of customer.
      */
-    public Account getAccount() 
+    public Account getAccount(char type) 
     {
-        return accounts;
+        for(int i = 0; i < Bank.maxNumOfAcctsPerCustomer; i++) {
+            if (accounts[i].getAcctType() == type) {
+                return accounts[i];
+            }
+        }
+        
+        return null;
     }
     
     /**
@@ -82,7 +80,7 @@ public class Customer
      * 
      * @return int Customer identifier.
      */
-    public int getCustomerId() 
+    public int getCustID() 
     {
         return custId;
     }
@@ -90,7 +88,7 @@ public class Customer
     /**
      * Accessor to get the customer email.
      * 
-     * @return string Email address of customer.
+     * @return String Email address of customer.
      */
     public String getEmail() 
     {
@@ -100,7 +98,7 @@ public class Customer
     /**
      * Accessor to get the customer name.
      * 
-     * @return string Last name and first name of customer.
+     * @return String Last name and first name of customer.
      */
     public String getName() 
     {
@@ -114,17 +112,27 @@ public class Customer
      */
     public int getNumOfAccounts() 
     {
-        return numberOfCurrentAccounts;
+        return numOfCurrentAccounts;
     }
     
     /**
      * Accessor to get the customer phone number.
      * 
-     * @return string Phone number of customer.
+     * @return String Phone number of customer.
      */
     public String getPhoneNumber() 
     {
         return phoneNumber;
+    }
+    
+    /**
+     * Accessor to get the date of customer birth.
+     * 
+     * @return String Date of customer birth.
+     */
+    public String getDateOfBirth()
+    {
+        return dateOfBirth;
     }
     
     /**
@@ -137,7 +145,7 @@ public class Customer
     public void setAddress(String street, String city, String code) 
     {
         streetAddress = street;
-        cityName = city;
+        cityAddress = city;
         code = zipOrPostalCode;
     }
     
@@ -186,9 +194,60 @@ public class Customer
      * Mutator to set the customer account.
      * 
      * @param acc Account object for customer.
+     * @return boolean The success of set account process.
      */
-    public void setAccount(Account acc) 
+    public boolean setAccount(Account acc) 
     {
-        accounts = acc;
+        for(int i = 0; i < Bank.maxNumOfAcctsPerCustomer; i++) {
+            if (accounts[i].getAcctType() == '\0') {
+                accounts[i] = acc;
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Mutator to set the customer id.
+     * 
+     * @param id Customer identifier.
+     */
+    public void setCustID(int id) {
+        custId = id;
+    }
+    
+    /**
+     * Method to remove one of the customer account.
+     * 
+     * @param type Account type that customer want to remove.
+     * @return boolean The success of remove process.
+     */
+    public boolean removeAccount(char type) {
+        for(int i = 0; i < Bank.maxNumOfAcctsPerCustomer; i++) {
+            if (accounts[i].getAcctType() == type) {
+                accounts[i] = new Account();
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Method to return string of customer information to print.
+     * 
+     * @return String Customer information to print.
+     */
+    public String toString() {
+        String customerInformation = "ID = " + this.getCustID() + "\nNama = " + this.getName() + "\nTanggal Lahir = " + this.getDateOfBirth();
+        
+        for(int i = 0; i < Bank.maxNumOfAcctsPerCustomer; i++) {
+            if (accounts[i].getAcctType() != '\0') {
+                customerInformation += "\nTipe akun = " + accounts[i].getAcctType() + ", Saldo = $" + accounts[i].getBalance();
+            }
+        }
+        
+        return customerInformation;
     }
 }

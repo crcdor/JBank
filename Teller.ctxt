@@ -2,7 +2,7 @@
 comment0.params=
 comment0.target=Teller()
 comment0.text=\r\n\ Create\ a\ new\ teller\ object.\r\n
-comment1.params=
-comment1.target=void\ main()
-comment1.text=\r\n\ Main\ method\ to\ print\ an\ example\ of\ customer\ account\ name\ and\ balance.\r\n
+comment1.params=args
+comment1.target=void\ main(java.lang.String[])
+comment1.text=\r\n\ Main\ method\ of\ Teller\ Class.\r\n
 numComments=2

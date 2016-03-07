@@ -1,5 +1,6 @@
 
 /**
+ * ASISTEN: program atau komentar yang tidak digunakan lagi bisa dihapus
  * Bank class.
  * 
  * @author Rudy Nurhadi

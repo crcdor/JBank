@@ -1,64 +1,129 @@
 
 /**
- * Write a description of class Account here.
+ * Account class is used to hold account information.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Rudy Nurhadi 
+ * @version 26/02/2016
+ * 
  */
-public class Account {
-    // instance variables - replace the example below with your own
+public class Account 
+{
+    private String id;
     private char acctType;
     private double balance;
-    private String id;
 
     /**
-     * Constructor for objects of class Account
+     * Create a new account object.
      */
-    public Account() {
-        // initialise instance variables
-        
+    public Account() 
+    {
+        acctType = '\0';
+        balance = 0;
     }
 
-    public Account(char type, double amount) {
-        
-    }
-    
     /**
-     * An example of a method - replace this comment with your own
+     * Create a new account object.
      * 
-     * @param  y   a sample parameter for a method
-     * @return     the sum of x and y 
+     * @param type Account type.
+     * @param amount Amount of money.
      */
-    private void deposit(double amount) {
+    public Account(char type, double amount) 
+    {
+        acctType = type;
+        balance = amount;
+    }
+    
+    /**
+     * Accessor to get the account identifier.
+     * 
+     * @return String Account identifier.
+     */
+    public String getId() 
+    {
+        return id;
+    }
+    
+    /**
+     * Accessor to get the account type.
+     * 
+     * @return char Type of an account.
+     */
+    public char getAcctType() 
+    {
+        return acctType;
+    }
+    
+    /**
+     * Accessor to get the account type.
+     * 
+     * @return double Balance of an account.
+     */
+    public double getBalance() 
+    {
+        return balance;
+    }
+    
+    /**
+     * Mutator to set the account identifier.
+     * 
+     * @param acctId Account identifier.
+     */
+    public void setID(String acctId) 
+    {
+        id = acctId;
+    }
+    
+    /**
+     * Mutator to set the account type.
+     * 
+     * @param type Type of an account.
+     */
+    public void setAcctType(char type) 
+    {
+        acctType = type;
+    }
+    
+    /**
+     * Mutator to set the account balance.
+     * 
+     * @param amount Amount of money.
+     */
+    public void setBalance(double amount) 
+    {
+        balance = amount;
+    }
+    
+    /**
+     * Method to withdraw the money in this account.
+     * 
+     * @param amount Amount of money to withdraw.
+     * @return boolean The success of the withdraw process.
+     */
+    public boolean withdraw(double amount) 
+    {
+        if((balance - amount) > 0 && amount > 0) {
+            balance -= amount;
+            
+            return true;
+        }
         
+        return false;
     }
     
-    public char getAcctType() {
-        return '\0';
-    }
-    
-    private double getBalance() {
-        return 0;
-    }
-    
-    public String getId() {
-        return null;
-    }
-    
-    private void setBalance(double amount) {
+    /**
+     * Method to deposit the money in this account.
+     * 
+     * @param amount Amount of money to deposit (must be positive).
+     * @return boolean The success of the deposit process.
+     */
+    public boolean deposit(double amount) 
+    {
+        if(amount >= 0) {
+            balance += amount;
+            
+            return true;
+        }
         
+        return false;
     }
-    
-    public void setID(String acctId) {
-        
-    }
-    
-    public void setAcctType(char type) {
-        
-    }
-    
-    private void withdraw(double amount) {
-        
-    }
-    
 }

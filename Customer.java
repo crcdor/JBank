@@ -1,3 +1,4 @@
+import java.util.Date;
 
 /**
  * Customer class is used as a customer object to hold customer information.
@@ -10,7 +11,7 @@ public class Customer
     private Account[] accounts = new Account[Bank.maxNumOfAcctsPerCustomer];
     private String cityAddress;
     private int custId;
-    private String dateOfBirth;
+    private Date dateOfBirth;
     private String email;
     private String firstName; 
     private String lastName;
@@ -37,7 +38,7 @@ public class Customer
      * @param lname Last name of customer.
      * @param dob Date of birth of customer.
      */
-    public Customer(String firstName, String lastName, String dateOfBirth) 
+    public Customer(String firstName, String lastName, Date dateOfBirth) 
     {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -128,9 +129,9 @@ public class Customer
     /**
      * Accessor to get the date of customer birth.
      * 
-     * @return String Date of customer birth.
+     * @return Date Date of customer birth.
      */
-    public String getDateOfBirth()
+    public Date getDateOfBirth()
     {
         return dateOfBirth;
     }

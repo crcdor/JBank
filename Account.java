@@ -101,10 +101,19 @@ public class Account
      */
     public boolean withdraw(double amount) 
     {
-        if((balance - amount) > 0 && amount > 0) {
-            balance -= amount;
-            
-            return true;
+        if(this.acctType != 'C') {
+            if((balance - amount) >= 0 && amount > 0) {
+                balance -= amount;
+                
+                return true;
+            }
+        }
+        else {
+            if((balance - amount) >= -500 && amount > 0) {
+                balance -= amount;
+                
+                return true;
+            }
         }
         
         return false;

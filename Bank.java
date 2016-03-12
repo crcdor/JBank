@@ -1,3 +1,7 @@
+import java.util.Date;
+import java.util.GregorianCalendar;
+
+import java.text.SimpleDateFormat;
 
 /**
  * Bank class.
@@ -10,9 +14,9 @@ public class Bank
     public static final String BANK_NAME = "JBANK";
     public static final String BANK_ADDRESS = "1234 JavaStreet, AnyCity, ThisState, 34567";
     private static String phone;
-    public static String website;
-    private static String startTime;
-    private static String closeTime;
+    private static String website;
+    private static Date startTime;
+    private static Date closeTime;
     public static int numOfCurrentCustomers = 0;
     public static final int MAX_NUM_OF_CUSTOMERS = 20;
     public static int maxNumOfAcctsPerCustomer = 4;
@@ -29,26 +33,6 @@ public class Bank
     {
         
     }
-    
-//     /**
-//      * Accessor to get the name of this bank.
-//      * 
-//      * @return String The name of this bank.
-//      */
-//     public static String getName() 
-//     {
-//         return BANK_NAME;
-//     }
-// 
-//     /**
-//      * Accessor to get the bank address.
-//      * 
-//      * @return String Address of the bank.
-//      */
-//     public static String getAddress() 
-//     {
-//         return BANK_ADDRESS;
-//     }
     
     /**
      * Accessor to get the phone number of this bank.
@@ -71,13 +55,34 @@ public class Bank
     }
     
     /**
+     * Accessor to get the start time of bank operation.
+     * 
+     * @return Date The start time of bank operation.
+     */
+    public static Date getStartTime() 
+    {
+        return startTime;
+    }
+    
+    /**
+     * Accessor to get the start time of bank operation.
+     * 
+     * @return Date The start time of bank operation.
+     */
+    public static Date getCloseTime() 
+    {
+        return closeTime;
+    }
+    
+    /**
      * Accessor to get the number of hours of bank operation.
      * 
-     * @return String The number of hours of bank operation.
+     * @return String The time of bank operation.
      */
     public static String getHoursOfOperation() 
     {
-        return null;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("kk:mm");
+        return dateFormat.format(getStartTime()) + " TO " + dateFormat.format(getCloseTime());
     }
     
     /**
@@ -89,16 +94,6 @@ public class Bank
     {
         return numOfCurrentCustomers;
     }
-    
-//     /**
-//      * Accessor to get the maximum total of customer.
-//      * 
-//      * @return int Maximum total of customer.
-//      */
-//     public static int getMaxCustomers() 
-//     {
-//         return MAX_NUM_OF_CUSTOMERS;
-//     }
     
     /**
      * Accessor to get the interest rate of credit.
@@ -165,6 +160,28 @@ public class Bank
     }
     
     /**
+     * Mutator to set the start time of bank operation.
+     * 
+     * @param hour The start time (hour) of bank operation.
+     * @param minute The start time (minute) of bank operation.
+     */
+    public static void setStartTime(int hour, int minute) 
+    {
+        startTime = new GregorianCalendar(1970, 0, 1, hour, minute).getTime();
+    }
+
+    /**
+     * Mutator to set the close time of bank operation.
+     * 
+     * @param hour The close time (hour) of bank operation.
+     * @param minute The close time (minute) of bank operation.
+     */
+    public static void setCloseTime(int hour, int minute) 
+    {
+        closeTime = new GregorianCalendar(1970, 0, 1, hour, minute).getTime();
+    }
+    
+    /**
      * Mutator to set the interest rate of credit account.
      * 
      * @param rate Value of the interest rate of credit account.
@@ -173,7 +190,7 @@ public class Bank
     {
         creditInterestRate = rate;
     }
-    
+
     /**
      * Mutator to set the interest rate of investment account.
      * 

@@ -4,7 +4,7 @@ import java.util.Date;
  * Customer class is used as a customer object to hold customer information.
  * 
  * @author Rudy Nurhadi
- * @version 26/02/2016
+ * @version 17/03/2016
  */
 public class Customer 
 {
@@ -15,7 +15,7 @@ public class Customer
     private String email;
     private String firstName; 
     private String lastName;
-    private int numOfCurrentAccounts;
+    private int numOfCurrentAccounts = 0;
     private String streetAddress;
     private String phoneNumber;
     private String zipOrPostalCode;
@@ -44,9 +44,6 @@ public class Customer
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
         custId = Bank.getNextID();
-        for(int i = 0; i < Bank.maxNumOfAcctsPerCustomer; i++) {
-            accounts[i] = new Account();
-        }
     }
     
     /**
@@ -68,8 +65,10 @@ public class Customer
     public Account getAccount(char type) 
     {
         for(int i = 0; i < Bank.maxNumOfAcctsPerCustomer; i++) {
-            if (accounts[i].getAcctType() == type) {
-                return accounts[i];
+            if(accounts[i] != null) {
+                if (accounts[i].getID().lastIndexOf(type) != -1) {
+                    return accounts[i];
+                }
             }
         }
         
@@ -192,17 +191,26 @@ public class Customer
     }
     
     /**
-     * Mutator to set the customer account.
+     * Mutator to add the customer account.
      * 
-     * @param acc Account object for customer.
-     * @return boolean The success of set account process.
+     * @param balance Balance in account.
+     * @param type Type of an account.
+     * @return boolean The success of add account process.
      */
-    public boolean setAccount(Account acc) 
+    public boolean addAccount(double balance, char type) 
     {
-        for(int i = 0; i < Bank.maxNumOfAcctsPerCustomer; i++) {
-            if (accounts[i].getAcctType() == '\0') {
-                accounts[i] = acc;
-                return true;
+        if(numOfCurrentAccounts < 4) {
+            for(int i = 0; i < Bank.maxNumOfAcctsPerCustomer; i++) {
+                if(accounts[i] == null) {
+                    accounts[i] = new Account(this, type, balance);
+                    numOfCurrentAccounts++;
+                    return true;
+                }
+                else {
+                    if (accounts[i].getID().endsWith(Character.toString(type))) {
+                        return false;
+                    }
+                }
             }
         }
         
@@ -227,7 +235,7 @@ public class Customer
     public boolean removeAccount(char type) {
         for(int i = 0; i < Bank.maxNumOfAcctsPerCustomer; i++) {
             if (accounts[i].getAcctType() == type) {
-                accounts[i] = new Account();
+                accounts[i] = null;
                 return true;
             }
         }
@@ -244,7 +252,7 @@ public class Customer
         String customerInformation = "ID = " + this.getCustID() + "\nNama = " + this.getName() + "\nTanggal Lahir = " + this.getDateOfBirth();
         
         for(int i = 0; i < Bank.maxNumOfAcctsPerCustomer; i++) {
-            if (accounts[i].getAcctType() != '\0') {
+            if (accounts[i] != null) {
                 customerInformation += "\nTipe akun = " + accounts[i].getAcctType() + ", Saldo = $" + accounts[i].getBalance();
             }
         }

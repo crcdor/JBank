@@ -1,5 +1,6 @@
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Scanner;
 
 import java.text.SimpleDateFormat;
 
@@ -7,7 +8,7 @@ import java.text.SimpleDateFormat;
  * Bank class.
  * 
  * @author Rudy Nurhadi
- * @version 26/02/2016
+ * @version 17/03/2016
  */
 public class Bank 
 {
@@ -18,14 +19,49 @@ public class Bank
     private static Date startTime;
     private static Date closeTime;
     public static int numOfCurrentCustomers = 0;
-    public static final int MAX_NUM_OF_CUSTOMERS = 20;
+    public static final int MAX_NUM_OF_CUSTOMERS;
     public static int maxNumOfAcctsPerCustomer = 4;
     private static double creditInterestRate;
     private static double investmentInterestRate;
     private static double premiumInterestRate;
     private static int lastCustID = 0;
     private static int nextCustID = 0;
+    private static Customer[] customer;
 
+    /**
+     * Static initializer block.
+     */
+    static {
+        Scanner scan = new Scanner(System.in);
+        int temp;
+        
+        while(true) {
+            System.out.print("Masukkan jumlah kustomer maksimal = ");
+            if(scan.hasNextInt()){
+                temp = scan.nextInt();
+                
+                if(temp < 0) {
+                    System.out.println("Mohon masukkan nilai positif.");
+                    scan.nextLine();
+                }
+                else {
+                    MAX_NUM_OF_CUSTOMERS = temp;
+                    break;
+                }
+            }
+            else {
+                System.out.println("Mohon masukkan angka.");
+                scan.nextLine();
+            }
+        }
+        
+        System.out.println("Jumlah kustomer maksimal adalah = " + MAX_NUM_OF_CUSTOMERS);
+        customer = new Customer[MAX_NUM_OF_CUSTOMERS];
+        
+        setStartTime(9, 0);
+        setCloseTime(15, 0);
+    }
+    
     /**
      * Create a new bank object.
      */
@@ -82,7 +118,7 @@ public class Bank
     public static String getHoursOfOperation() 
     {
         SimpleDateFormat dateFormat = new SimpleDateFormat("kk:mm");
-        return dateFormat.format(getStartTime()) + " TO " + dateFormat.format(getCloseTime());
+        return "Bank Hours of Operation = " + dateFormat.format(getStartTime()) + " TO " + dateFormat.format(getCloseTime());
     }
     
     /**
@@ -93,6 +129,15 @@ public class Bank
     public static int getNumOfCurrentCustomers()
     {
         return numOfCurrentCustomers;
+    }
+    
+    /**
+     * Accessor to get the maximum number of customer.
+     * 
+     * @return int Maximum number of customer.
+     */
+    public static int getMaxNumOfCustomers() {
+        return MAX_NUM_OF_CUSTOMERS;
     }
     
     /**
@@ -160,6 +205,26 @@ public class Bank
     }
     
     /**
+     * Accessor to get the customer object in customer array based on customer identifier.
+     * 
+     * @param custID Customer identifier.
+     * @return Customer Customer object based on customer identifier.
+     */
+    public static Customer getCustomer(int custID)
+    {
+        for(int i = 0; i < Bank.MAX_NUM_OF_CUSTOMERS; i++) {
+            if(customer[i] != null) {
+                if(customer[i].getCustID() == custID) {
+                    
+                    return customer[i];
+                }
+            }
+        }
+        
+        return null;
+    }
+    
+    /**
      * Mutator to set the start time of bank operation.
      * 
      * @param hour The start time (hour) of bank operation.
@@ -209,5 +274,24 @@ public class Bank
     public static void setPremium(double rate) 
     {
         premiumInterestRate = rate;
+    }
+    
+    /**
+     * Method to add the customer object to customer array in bank class.
+     * 
+     * @param cust Customer object.
+     * @return boolean The success of the process.
+     */
+    public static boolean addCustomer(Customer cust) 
+    {
+        for(int i = 0; i < Bank.MAX_NUM_OF_CUSTOMERS; i++) {
+            if(customer[i] == null) {
+                customer[i] = cust;
+                System.out.println(i);
+                return true;
+            }
+        }
+                    
+        return false;
     }
 }

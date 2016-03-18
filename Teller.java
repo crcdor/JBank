@@ -1,3 +1,6 @@
+import java.util.Scanner;
+import java.util.GregorianCalendar;
+
 import java.text.DecimalFormat;
 
 import java.math.BigDecimal;
@@ -26,72 +29,74 @@ public class Teller
      */
     public static void main(String[] args) 
     {  
-       Account savingAcc = new Account('S', 1000);
-       Account investmentAcc = new Account('I', 1000);
-       Account creditAcc = new Account('C', 500);
-       creditAcc.withdraw(750);
-       
-       System.out.println("Saving Account Balance = " + savingAcc.getBalance());
-       System.out.println("Investment Account Balance = " + investmentAcc.getBalance());
-       System.out.println("Credit Account Balance = " + creditAcc.getBalance());
-       
-       //Calculate Saving Account
-       BigDecimal bal = new BigDecimal(savingAcc.getBalance());
-       BigDecimal n = new BigDecimal(360); //per day
-       BigDecimal t = new BigDecimal(1); //1 year
-       BigDecimal r = new BigDecimal(0.03); //3% interest rate
-       
-       BigDecimal f1 = r.divide(n, new MathContext(10, RoundingMode.DOWN)).add(new BigDecimal(1)); //(r/n)+1
-       BigDecimal f2 = n.multiply(t); //(n*t)
-       
-       double balance = f1.pow(f2.intValue()).multiply(bal).doubleValue(); //(((r/n)+1)^(n*t))*P
-       balance = Double.parseDouble(new DecimalFormat("#.##").format(balance)); //format double to 2 decimal places
-       savingAcc.setBalance(balance);
-       
-       
-       //Calculate Investment first 6 month
-       bal = new BigDecimal(investmentAcc.getBalance());
-       n = new BigDecimal(12); //per month
-       t = new BigDecimal(0.5); //6 month
-       r = new BigDecimal(0.05); //5% interest rate for first 6 month
-       
-       f1 = r.divide(n, new MathContext(10, RoundingMode.DOWN)).add(new BigDecimal(1)); //(r/n)+1
-       f2 = n.multiply(t); //(n*t)
-       
-       balance = f1.pow(f2.intValue()).multiply(bal).doubleValue(); //(((r/n)+1)^(n*t))*P
-       balance = Double.parseDouble(new DecimalFormat("#.##").format(balance)); //format double to 2 decimal places
-       
-       
-       //Calculate Investment at 6-12 month
-       bal = new BigDecimal(balance); //balance from first 6 month 
-       r = new BigDecimal(0.06); //6% interest rate at 6-12 month
-       
-       f1 = r.divide(n, new MathContext(10, RoundingMode.DOWN)).add(new BigDecimal(1));  //(r/n)+1
-       f2 = n.multiply(t); //(n*t)
-       
-       balance = f1.pow(f2.intValue()).multiply(bal).doubleValue(); //(((r/n)+1)^(n*t))*P
-       balance = Double.parseDouble(new DecimalFormat("#.##").format(balance)); //format to 2 decimal places
-       
-       investmentAcc.setBalance(balance);
-       
-       
-       //Calculate Credit Account
-       bal = new BigDecimal(creditAcc.getBalance());
-       n = new BigDecimal(360); //per day
-       t = new BigDecimal(1); //1 year
-       r = new BigDecimal(0.18); //3% interest rate
-       
-       f1 = r.divide(n, new MathContext(10, RoundingMode.DOWN)).add(new BigDecimal(1)); //(r/n)+1
-       f2 = n.multiply(t); //(n*t)
-       
-       balance = f1.pow(f2.intValue()).multiply(bal).doubleValue(); //(((r/n)+1)^(n*t))*P
-       balance = Double.parseDouble(new DecimalFormat("#.##").format(balance)); //format double to 2 decimal places
-       creditAcc.setBalance(balance);
-       
-       
-       System.out.println("\nAfter 1 year");
-       System.out.println("Saving Account Balance = " + savingAcc.getBalance());
-       System.out.println("Investment Account Balance = " + investmentAcc.getBalance());
-       System.out.println("Credit Account Balance = " + creditAcc.getBalance());
+        System.out.println(Bank.getHoursOfOperation());
+        
+        Scanner scan = new Scanner(System.in);
+        String answer, fname, lname;
+        Customer cust;
+        char type;
+        int i = 0, day, month, year;
+        double balance;
+
+        while(true) {
+            while(true) {
+                System.out.println("\nApakah ingin membuat customer? (Y/N)");
+                answer = scan.next();
+                if(answer.charAt(0) == 'N' || answer.charAt(0) == 'n') {
+                    return;
+                }
+                else if(answer.charAt(0) == 'Y' || answer.charAt(0) == 'y') {
+                    break;
+                }
+            }
+            System.out.println("\nMasukkan nama depan anda: ");
+            fname = scan.next();
+            System.out.println("\nMasukkan nama belakang anda: ");
+            lname = scan.next();
+            System.out.println("\nMasukkan tahun lahir anda: ");
+            year = scan.nextInt();
+            System.out.println("\nMasukkan bulan lahir anda (1-12): ");
+            month = scan.nextInt();
+            System.out.println("\nMasukkan tanggal lahir anda: ");
+            day = scan.nextInt();
+            cust = new Customer(fname, lname, new GregorianCalendar(year, month - 1, day).getTime());
+            while(true) {
+                System.out.println("\nMasukkan tipe akun yang ingin anda buat (S: Savings, O: Overdraft, I: Investment, C: Credit, N: Tidak membuat");
+                answer = scan.next();
+                type = answer.charAt(0);
+                if (type == 'S' || type == 'O' || type == 'I' || type == 'C') {
+                    while(true) {
+                        System.out.println("Masukkan nilai saldo awal: ");
+                        balance = scan.nextDouble();
+                        if (balance < 10) {
+                            System.out.println("Maaf saldo yang anda masukkan tidak mencukupi");
+                        }
+                        else break;
+                    }
+                    if (!cust.addAccount(balance, type)) {
+                        System.out.println("\nPenambahan akun gagal\n");
+                    }
+                    if(cust.getNumOfAccounts() > 3) {
+                        System.out.println("\nJumlah akun anda sudah maksimal\n");
+                        break;
+                    } 
+                    System.out.println("\nApakah anda ingin membuat akun lagi? (Y/N)");
+                    answer = scan.next();
+                    type = answer.charAt(0);
+                }
+                if (type == 'N' || type == 'n') {
+                    break;
+                }
+            }
+            answer = Bank.addCustomer(cust) ? "Kustomer berhasil ditambahkan" : "Gagal menambahkan kustomer";
+            System.out.print(answer);
+            
+            System.out.println("\n\n\nInformasi Customer (ID = " + cust.getCustID() + ")\n\n"); 
+            answer = Bank.getCustomer(cust.getCustID()) != null ? Bank.getCustomer(cust.getCustID()).toString() : "Gagal menemukan kustomer";
+            
+            System.out.println(answer);
+        }
+        
     }
+    
 }

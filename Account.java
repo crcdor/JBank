@@ -11,15 +11,7 @@ public class Account
     private String id;
     private char acctType;
     private double balance;
-
-    /**
-     * Create a new account object.
-     */
-    public Account() 
-    {
-        acctType = '\0';
-        balance = 0;
-    }
+    private Customer customer;
 
     /**
      * Create a new account object.
@@ -27,10 +19,12 @@ public class Account
      * @param type Account type.
      * @param amount Amount of money.
      */
-    public Account(char type, double amount) 
+    public Account(Customer cust, char type, double amount) 
     {
+        customer = cust;
         acctType = type;
         balance = amount;
+        id = cust.getCustID() + "" + type;
     }
     
     /**
@@ -38,7 +32,7 @@ public class Account
      * 
      * @return String Account identifier.
      */
-    public String getId() 
+    public String getID() 
     {
         return id;
     }
@@ -61,16 +55,6 @@ public class Account
     public double getBalance() 
     {
         return balance;
-    }
-    
-    /**
-     * Mutator to set the account identifier.
-     * 
-     * @param acctId Account identifier.
-     */
-    public void setID(String acctId) 
-    {
-        id = acctId;
     }
     
     /**

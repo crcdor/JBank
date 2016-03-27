@@ -4,7 +4,7 @@ import java.util.Date;
  * Customer class is used as a customer object to hold customer information.
  * 
  * @author Rudy Nurhadi
- * @version 17/03/2016
+ * @version 26/03/2016
  */
 public class Customer 
 {
@@ -197,17 +197,17 @@ public class Customer
      * @param type Type of an account.
      * @return boolean The success of add account process.
      */
-    public boolean addAccount(double balance, char type) 
+    public boolean addAccount(Account account) 
     {
         if(numOfCurrentAccounts < 4) {
             for(int i = 0; i < Bank.maxNumOfAcctsPerCustomer; i++) {
                 if(accounts[i] == null) {
-                    accounts[i] = new Account(this, type, balance);
+                    accounts[i] = account;
                     numOfCurrentAccounts++;
                     return true;
                 }
                 else {
-                    if (accounts[i].getID().endsWith(Character.toString(type))) {
+                    if (accounts[i].getID().endsWith(Character.toString(account.getID().charAt(account.getID().length() - 1)))) {
                         return false;
                     }
                 }
@@ -234,8 +234,9 @@ public class Customer
      */
     public boolean removeAccount(char type) {
         for(int i = 0; i < Bank.maxNumOfAcctsPerCustomer; i++) {
-            if (accounts[i].getAcctType() == type) {
+            if (accounts[i].getID().lastIndexOf(type) != -1) {
                 accounts[i] = null;
+                numOfCurrentAccounts--;
                 return true;
             }
         }
@@ -253,7 +254,7 @@ public class Customer
         
         for(int i = 0; i < Bank.maxNumOfAcctsPerCustomer; i++) {
             if (accounts[i] != null) {
-                customerInformation += "\nTipe akun = " + accounts[i].getAcctType() + ", Saldo = $" + accounts[i].getBalance();
+                customerInformation += "\nTipe akun = " + accounts[i].getID().charAt(accounts[i].getID().length() - 1) + ", Saldo = $" + accounts[i].getBalance();
             }
         }
         

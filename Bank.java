@@ -55,7 +55,7 @@ public class Bank
             }
         }
         
-        System.out.println("Jumlah kustomer maksimal adalah = " + MAX_NUM_OF_CUSTOMERS);
+        System.out.println("Jumlah kustomer maksimal adalah = " + MAX_NUM_OF_CUSTOMERS + "\n");
         customer = new Customer[MAX_NUM_OF_CUSTOMERS];
         
         setStartTime(9, 0);

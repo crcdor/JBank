@@ -3,34 +3,32 @@
  * Account class is used to hold account information.
  * 
  * @author Rudy Nurhadi 
- * @version 26/02/2016
+ * @version 26/03/2016
  * 
  */
-public class Account 
+public abstract class Account 
 {
-    private String id;
-    private char acctType;
-    private double balance;
-    private Customer customer;
-
+    protected String id;
+    protected double balance;
+    
+    
     /**
-     * Create a new account object.
+     * Default constructor for account class.
      * 
-     * @param type Account type.
-     * @param amount Amount of money.
+     * @param id Account identifier.
+     * @param balance Amount of money stored.
      */
-    public Account(Customer cust, char type, double amount) 
+    public Account(String id, double balance)
     {
-        customer = cust;
-        acctType = type;
-        balance = amount;
-        id = cust.getCustID() + "" + type;
+        if(balance < 0) balance = 0;
+        this.id = id;
+        this.balance = balance;
     }
     
     /**
      * Accessor to get the account identifier.
      * 
-     * @return String Account identifier.
+     * @return String Account id.
      */
     public String getID() 
     {
@@ -38,33 +36,13 @@ public class Account
     }
     
     /**
-     * Accessor to get the account type.
-     * 
-     * @return char Type of an account.
-     */
-    public char getAcctType() 
-    {
-        return acctType;
-    }
-    
-    /**
-     * Accessor to get the account type.
+     * Accessor to get the balance of this account.
      * 
      * @return double Balance of an account.
      */
     public double getBalance() 
     {
         return balance;
-    }
-    
-    /**
-     * Mutator to set the account type.
-     * 
-     * @param type Type of an account.
-     */
-    public void setAcctType(char type) 
-    {
-        acctType = type;
     }
     
     /**
@@ -83,25 +61,7 @@ public class Account
      * @param amount Amount of money to withdraw.
      * @return boolean The success of the withdraw process.
      */
-    public boolean withdraw(double amount) 
-    {
-        if(this.acctType != 'C') {
-            if((balance - amount) >= 0 && amount > 0) {
-                balance -= amount;
-                
-                return true;
-            }
-        }
-        else {
-            if((balance - amount) >= -500 && amount > 0) {
-                balance -= amount;
-                
-                return true;
-            }
-        }
-        
-        return false;
-    }
+    public abstract boolean withdraw(double amount);
     
     /**
      * Method to deposit the money in this account.
@@ -118,5 +78,14 @@ public class Account
         }
         
         return false;
+    }
+    
+    /**
+     * Method to return string of account id to print.
+     * 
+     * @return String Account ID.
+     */
+    public String toString() {
+        return id;
     }
 }

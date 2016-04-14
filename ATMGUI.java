@@ -63,6 +63,7 @@ public class ATMGUI extends JPanel
         customerIdTextField.setColumns(10);
         
         savingsRadioButton = new JRadioButton("Savings");
+        savingsRadioButton.setSelected(true);
         investmentRadioButton = new JRadioButton("Investment");
         lineOfCreditRadioButton = new JRadioButton("Line Of Credit");
         overdraftRadioButton = new JRadioButton("Overdraft");

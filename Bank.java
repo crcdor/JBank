@@ -26,7 +26,7 @@ public class Bank
     private static double premiumInterestRate;
     private static int lastCustID = 0;
     private static int nextCustID = 0;
-    private static Customer[] customer;
+    public static Customer[] customer;
 
     /**
      * Static initializer block.
@@ -287,7 +287,6 @@ public class Bank
         for(int i = 0; i < Bank.MAX_NUM_OF_CUSTOMERS; i++) {
             if(customer[i] == null) {
                 customer[i] = cust;
-                System.out.println(i);
                 return true;
             }
         }

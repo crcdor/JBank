@@ -1,12 +1,11 @@
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-
 /**
- * Write a description of class ButtonHandler here.
+ * ButtonHandler class.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Rudy Nurhadi
+ * @version 14/04/2016
  */
 public class ButtonHandler implements ActionListener
 {
@@ -44,14 +43,16 @@ public class ButtonHandler implements ActionListener
                 atmgui.textAreaPrintln("Customer ID not found");
             }
             else {
-                if(cust.getAccount(acctType) != null) {
-                    if(cust.getAccount(acctType).deposit(amount)) {
-                        atmgui.textAreaPrintln(custID + " saves an amount of money: $" + amount + " to " + acctType + " account.");
-                        atmgui.textAreaPrintln("Sisa saldo akun " + acctType + ": $" + cust.getAccount(acctType).getBalance());
+                try {
+                    if(cust.getAccount(acctType) != null) {
+                        if(cust.getAccount(acctType).deposit(amount)) {
+                            atmgui.textAreaPrintln(custID + " saves an amount of money: $" + amount + " to " + acctType + " account.");
+                            atmgui.textAreaPrintln("Sisa saldo akun " + acctType + ": $" + cust.getAccount(acctType).getBalance());
+                        }
                     }
                 }
-                else {
-                    atmgui.textAreaPrintln("Deposit not success");
+                catch(AccountTypeNotFoundException e1) {
+                    atmgui.textAreaPrintln(e1.getMessage());
                 }
             }           
         }
@@ -76,19 +77,26 @@ public class ButtonHandler implements ActionListener
                 atmgui.textAreaPrintln("Customer ID not found");
             }
             else {
-                if(cust.getAccount(acctType) != null) {
-                    if(cust.getAccount(acctType).withdraw(amount)) {
-                        atmgui.textAreaPrintln(custID + " saves an amount of money: $" + amount + " to " + acctType + " account.");
-                        atmgui.textAreaPrintln("Sisa saldo akun " + acctType + ": $" + cust.getAccount(acctType).getBalance());
+                try {
+                    if(cust.getAccount(acctType) != null) {
+                        try {
+                            cust.getAccount(acctType).withdraw(amount);
+                            atmgui.textAreaPrintln(custID + " withdraw an amount of money: $" + amount + " to " + acctType + " account.");
+                            atmgui.textAreaPrintln("Sisa saldo akun " + acctType + ": $" + cust.getAccount(acctType).getBalance());       
+                        }
+                        catch(AmountOverDrawnException e1) {
+                            atmgui.textAreaPrintln(e1.getMessage());
+                        }
+                            
                     }
                 }
-                else {
-                    atmgui.textAreaPrintln("Deposit not success");
+                catch(AccountTypeNotFoundException e1) {
+                    atmgui.textAreaPrintln(e1.getMessage());
                 }
             }
         }
         else if(button.equals("Exit")) {
             System.exit(0);
         }
-  }
+    }
 }

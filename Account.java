@@ -61,7 +61,7 @@ public abstract class Account
      * @param amount Amount of money to withdraw.
      * @return boolean The success of the withdraw process.
      */
-    public abstract boolean withdraw(double amount);
+    public abstract void withdraw(double amount) throws AmountOverDrawnException;
     
     /**
      * Method to deposit the money in this account.

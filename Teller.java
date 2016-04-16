@@ -31,29 +31,31 @@ public class Teller
      */
     public static void main(String[] args) 
     {  
-        Customer c1 = new Customer("Rudy", "Nurhadi");
-        Account as1 = new Savings(c1, 1000);
-        Account ai1 = new Investment(c1, 1000, 6);
-        Account ac1 = new LineOfCredit(c1, 1000, 100);
-        Account ao1 = new OverDraftProtection(c1, 1000, (Savings)as1);
-        c1.addAccount(as1);
-        c1.addAccount(ai1);
-        c1.addAccount(ac1);
-        c1.addAccount(ao1);
-        
-        Customer c2 = new Customer("Rudy1", "Nurhadi1");
-        Account as2 = new Savings(c2, 2000);
-        Account ai2 = new Investment(c2, 2000, 6);
-        Account ac2 = new LineOfCredit(c2, 2000, 100);
-        Account ao2 = new OverDraftProtection(c2, 2000, (Savings)as2);
-        c2.addAccount(as2);
-        c2.addAccount(ai2);
-        c2.addAccount(ac2);
-        c2.addAccount(ao2);
-        
-        
-        Bank.addCustomer(c1);
-        Bank.addCustomer(c2);
+        try {
+            Customer c1 = new Customer("Rudy", "Nurhadi");
+            Account as1 = new Savings(c1, 1000);
+            Account ai1 = new Investment(c1, 1000, 6);
+            Account ac1 = new LineOfCredit(c1, 1000, 100);
+            c1.addAccount(as1);
+            c1.addAccount(ai1);
+            c1.addAccount(ac1);
+            
+            Customer c2 = new Customer("Rudy1", "Nurhadi1");
+            Account as2 = new Savings(c2, 2000);
+            Account ai2 = new Investment(c2, 2000, 6);
+            Account ac2 = new LineOfCredit(c2, 2000, 100);
+            Account ao2 = new OverDraftProtection(c2, 2000, (Savings)as2);
+            c2.addAccount(as2);
+            c2.addAccount(ai2);
+            c2.addAccount(ac2);
+            c2.addAccount(ao2);
+            
+            
+            Bank.addCustomer(c1);
+            Bank.addCustomer(c2);
+        }
+        catch(Exception e){
+        }
         
         
         

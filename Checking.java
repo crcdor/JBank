@@ -26,7 +26,7 @@ public abstract class Checking extends Account
      * @param amount Amount of money to withdraw.
      * @return boolean The success of the withdraw process.
      */
-    public abstract boolean withdraw(double amount);
+    public abstract void withdraw(double amount) throws AmountOverDrawnException;
     
     /**
      * Method for add monthlyFee and cut balance if withdraw success.

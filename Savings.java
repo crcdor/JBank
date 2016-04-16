@@ -37,14 +37,14 @@ public class Savings extends Account
      * @param amount Amount of money to withdraw.
      * @return boolean The success of the withdraw process.
      */
-    public boolean withdraw(double amount) {
+    public void withdraw(double amount) throws AmountOverDrawnException
+    {
         if((balance - amount) >= 10 && amount > 0) {
             balance -= amount;
-            
-            return true;
         }
-        
-        return false;
+        else {
+            throw new AmountOverDrawnException(this);
+        }
     }
     
     /**

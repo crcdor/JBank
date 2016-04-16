@@ -39,7 +39,8 @@ public final class Investment extends Savings
      * @param amount Amount of money to withdraw.
      * @return boolean The success of the withdraw process.
      */
-    public boolean withdraw(double amount) {
+    public void withdraw(double amount) throws AmountOverDrawnException
+    {
         double tempBalance = balance;
         
         if (Calendar.getInstance().before(endDate)) {
@@ -49,11 +50,10 @@ public final class Investment extends Savings
         if((tempBalance - amount) >= 0 && amount > 0) {
             tempBalance -= amount;
             balance = tempBalance;
-            
-            return true;
         }
-        
-        return false;
+        else {
+            throw new AmountOverDrawnException(this);
+        }
     }
     
     /**

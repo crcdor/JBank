@@ -62,7 +62,7 @@ public class Customer
      * @param type Account type that want to get.
      * @return Account Account object of customer.
      */
-    public Account getAccount(char type) 
+    public Account getAccount(char type) throws AccountTypeNotFoundException
     {
         for(int i = 0; i < Bank.maxNumOfAcctsPerCustomer; i++) {
             if(accounts[i] != null) {
@@ -72,7 +72,7 @@ public class Customer
             }
         }
         
-        return null;
+        throw new AccountTypeNotFoundException(type);
     }
     
     /**
@@ -197,24 +197,41 @@ public class Customer
      * @param type Type of an account.
      * @return boolean The success of add account process.
      */
-    public boolean addAccount(Account account) 
+    public void addAccount(Account account) throws AccountTypeAlreadyExistsException, Exception
     {
-        if(numOfCurrentAccounts < 4) {
+        boolean savingsAccountExist = false;
+        if(numOfCurrentAccounts < Bank.maxNumOfAcctsPerCustomer) {
             for(int i = 0; i < Bank.maxNumOfAcctsPerCustomer; i++) {
                 if(accounts[i] == null) {
+                    if(accounts[i] instanceof OverDraftProtection) {
+                        if(!savingsAccountExist) {
+                            for(int j = i + 1; j < Bank.maxNumOfAcctsPerCustomer; j++) {
+                                if(accounts[j] instanceof Savings && !(accounts[j] instanceof Investment)) {
+                                    savingsAccountExist = true;
+                                }
+                            }
+                            if(!savingsAccountExist) {
+                                throw new Exception("Savings account is not created.");
+                            }
+                        }
+                    }
                     accounts[i] = account;
-                    numOfCurrentAccounts++;
-                    return true;
+                    numOfCurrentAccounts += 1;
+                    break;
                 }
                 else {
-                    if (accounts[i].getID().endsWith(Character.toString(account.getID().charAt(account.getID().length() - 1)))) {
-                        return false;
+                    if(accounts[i] instanceof Savings && !(accounts[i] instanceof Investment)) {
+                        savingsAccountExist = true;
+                    }
+                    if(account.getClass().getName().equals(accounts[i].getClass().getName())) {
+                        throw new AccountTypeAlreadyExistsException(account.getID().charAt(account.getID().length() - 1));
                     }
                 }
             }
         }
-        
-        return false;
+        else {
+            throw new Exception("Account is full");
+        }
     }
     
     /**

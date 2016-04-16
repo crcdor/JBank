@@ -13,10 +13,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 /**
- * Write a description of class ATMGUI here.
+ * ATMGUI class.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Rudy Nurhadi 
+ * @version 14/04/2016
  */
 public class ATMGUI extends JPanel
 {

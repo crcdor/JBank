@@ -29,17 +29,9 @@ public class ButtonHandler implements ActionListener
             double amount = atmgui.getAmount();
             char acctType = atmgui.getAccountType();
             
-            for(int i = 0; i < Bank.MAX_NUM_OF_CUSTOMERS; i++) {
-                if(Bank.customer[i] != null) {
-                    if(custID == Bank.customer[i].getCustID()) {
-                        cust = Bank.customer[i];
-                        search = false;
-                        break;
-                    }
-                }
-            }
+            cust = Bank.getCustomer(custID);
             
-            if(search) {
+            if(cust == null) {
                 atmgui.textAreaPrintln("Customer ID not found");
             }
             else {
@@ -63,17 +55,9 @@ public class ButtonHandler implements ActionListener
             double amount = atmgui.getAmount();
             char acctType = atmgui.getAccountType();
             
-            for(int i = 0; i < Bank.MAX_NUM_OF_CUSTOMERS; i++) {
-                if(Bank.customer[i] != null) {
-                    if(custID == Bank.customer[i].getCustID()) {
-                        cust = Bank.customer[i];
-                        search = false;
-                        break;
-                    }
-                }
-            }
+            cust = Bank.getCustomer(custID);
             
-            if(search) {
+            if(cust == null) {
                 atmgui.textAreaPrintln("Customer ID not found");
             }
             else {
@@ -98,5 +82,8 @@ public class ButtonHandler implements ActionListener
         else if(button.equals("Exit")) {
             System.exit(0);
         }
+        
+        CustomerFileWriter.saveCustomer(Bank.customer);
     }
+    
 }

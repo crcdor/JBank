@@ -1,6 +1,8 @@
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import java.text.SimpleDateFormat;
 
@@ -19,48 +21,15 @@ public class Bank
     private static Date startTime;
     private static Date closeTime;
     public static int numOfCurrentCustomers = 0;
-    public static final int MAX_NUM_OF_CUSTOMERS;
+    public static final int MAX_NUM_OF_CUSTOMERS = 10;
     public static int maxNumOfAcctsPerCustomer = 4;
     private static double creditInterestRate;
     private static double investmentInterestRate;
     private static double premiumInterestRate;
     private static int lastCustID = 0;
     private static int nextCustID = 0;
-    public static Customer[] customer;
-
-    /**
-     * Static initializer block.
-     */
-    static {
-        Scanner scan = new Scanner(System.in);
-        int temp;
-        
-        while(true) {
-            System.out.print("Masukkan jumlah kustomer maksimal = ");
-            if(scan.hasNextInt()){
-                temp = scan.nextInt();
-                
-                if(temp < 0) {
-                    System.out.println("Mohon masukkan nilai positif.");
-                    scan.nextLine();
-                }
-                else {
-                    MAX_NUM_OF_CUSTOMERS = temp;
-                    break;
-                }
-            }
-            else {
-                System.out.println("Mohon masukkan angka.");
-                scan.nextLine();
-            }
-        }
-        
-        System.out.println("Jumlah kustomer maksimal adalah = " + MAX_NUM_OF_CUSTOMERS + "\n");
-        customer = new Customer[MAX_NUM_OF_CUSTOMERS];
-        
-        setStartTime(9, 0);
-        setCloseTime(15, 0);
-    }
+    public static ArrayList<Customer> customer = new ArrayList<Customer>();
+    public static final String CUSTOMER_FILE_NAME = "customers.dat";
     
     /**
      * Create a new bank object.
@@ -212,12 +181,13 @@ public class Bank
      */
     public static Customer getCustomer(int custID)
     {
-        for(int i = 0; i < Bank.MAX_NUM_OF_CUSTOMERS; i++) {
-            if(customer[i] != null) {
-                if(customer[i].getCustID() == custID) {
-                    
-                    return customer[i];
-                }
+        Iterator<Customer> it = customer.iterator();
+        Customer tempCust;
+        
+        while(it.hasNext()) {
+            tempCust = it.next();
+            if(tempCust.getCustID() == custID) {
+                return tempCust;
             }
         }
         
@@ -284,13 +254,12 @@ public class Bank
      */
     public static boolean addCustomer(Customer cust) 
     {
-        for(int i = 0; i < Bank.MAX_NUM_OF_CUSTOMERS; i++) {
-            if(customer[i] == null) {
-                customer[i] = cust;
-                return true;
-            }
+        if(customer.add(cust)) {
+            numOfCurrentCustomers++;
+            return true;
         }
-                    
-        return false;
+        else {
+            return false;
+        }
     }
 }

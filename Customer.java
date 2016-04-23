@@ -1,12 +1,14 @@
 import java.util.Date;
 
+import java.io.Serializable;
+
 /**
  * Customer class is used as a customer object to hold customer information.
  * 
  * @author Rudy Nurhadi
  * @version 26/03/2016
  */
-public class Customer 
+public class Customer implements Serializable
 {
     private Account[] accounts = new Account[Bank.maxNumOfAcctsPerCustomer];
     private String cityAddress;

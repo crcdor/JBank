@@ -1,3 +1,4 @@
+import java.io.Serializable;
 
 /**
  * Account class is used to hold account information.
@@ -6,7 +7,7 @@
  * @version 26/03/2016
  * 
  */
-public abstract class Account 
+public abstract class Account implements Serializable
 {
     protected String id;
     protected double balance;
